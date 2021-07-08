@@ -12,6 +12,16 @@
             <version>0.0.1</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.couchbase.jdbc</groupId>
+            <artifactId>jdbc-n1ql</artifactId>
+            <version>1.0-BETA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.bundles</groupId>
+            <artifactId>derby-all</artifactId>
+            <version>10.8.2.2_1</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
