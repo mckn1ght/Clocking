@@ -5,14 +5,6 @@
  */
 package com.mycompany.pontaj;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author kodie
@@ -143,11 +135,6 @@ public class main extends javax.swing.JFrame {
 
         ENTER.setText("ENTER");
         ENTER.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        ENTER.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ENTERActionPerformed(evt);
-            }
-        });
 
         jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
@@ -281,42 +268,6 @@ public class main extends javax.swing.JFrame {
         code = code.substring(0, code.length() - 1);
         jTextField1.setText(a);
     }//GEN-LAST:event_delActionPerformed
-
-    private void ENTERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ENTERActionPerformed
-    try {    
-            int flag = 1;
-            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
-            Statement st =  conn.createStatement();
-            ResultSet rs = st.executeQuery("select * from ANGAJATI");    
-            while(rs.next())
-           {
-               if(rs.getString(5).equals(code)){
-                   flag = 0;
-
-                   break;
-               }
-           }
-           if(flag == 0){
-            // open window if supervisor
-             JOptionPane.showMessageDialog(null,"PASSWORD OK",
-            "Error", JOptionPane.ERROR_MESSAGE);
-            rs.close();
-            st.close();
-            conn.close();
-            dispose();
-             
-           }
-           else{
-                JOptionPane.showMessageDialog(null,"Wrong Password!",
-            "Error", JOptionPane.ERROR_MESSAGE);
-           }
-            rs.close();
-            st.close();
-            conn.close();  
-        } catch (SQLException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_ENTERActionPerformed
 
     /**
      * @param args the command line arguments
