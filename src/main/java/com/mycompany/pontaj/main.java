@@ -18,8 +18,8 @@ import javax.swing.JOptionPane;
  *
  * @author kodie
  */
-
 public class main extends javax.swing.JFrame {
+
     private static String code = "";
 
     /**
@@ -275,7 +275,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton0ActionPerformed
 
     private void delActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delActionPerformed
-       
+
         String a = "";
         a = jTextField1.getText();
         a = a.substring(0, a.length() - 1);
@@ -284,34 +284,34 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_delActionPerformed
 
     private void ENTERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ENTERActionPerformed
-        try {    
+        try {
             int flag = 1;
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
-            Statement st =  conn.createStatement();
-            ResultSet rs = st.executeQuery("select * from ANGAJATI");    
-            while(rs.next())
-           {
-               if(rs.getString(5).equals(code)){
-                   flag = 0;
-                   break;
-               }
-           }
-           if(flag == 0){
-               JOptionPane.showMessageDialog(null,"CODE OK",
-            "Error", JOptionPane.ERROR_MESSAGE);
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select * from ANGAJATI");
+            while (rs.next()) {
+                if (rs.getString(5).equals(code)) {
+                    flag = 0;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                JOptionPane.showMessageDialog(null, "CODE OK",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                rs.close();
+                st.close();
+                conn.close();
+                dispose();
+
+            } else {
+                jTextField1.setText("");
+                JOptionPane.showMessageDialog(null, "INVALID CODE",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
             rs.close();
             st.close();
             conn.close();
-            dispose();
-             
-           }
-           else{
-                JOptionPane.showMessageDialog(null,"INVALID CODE",
-            "Error", JOptionPane.ERROR_MESSAGE);
-           }
-            rs.close();
-            st.close();
-            conn.close();  
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
