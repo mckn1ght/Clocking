@@ -7,12 +7,17 @@ package com.mycompany.pontaj;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.TimeZone;
 
 /**
  *
@@ -284,6 +289,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_delActionPerformed
 
     private void ENTERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ENTERActionPerformed
+        String nume = "";
         try {
             int flag = 1;
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
@@ -291,18 +297,81 @@ public class main extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery("select * from ANGAJATI");
             while (rs.next()) {
                 if (rs.getString(5).equals(code)) {
+                    nume = rs.getString(2);
                     flag = 0;
+
                     break;
                 }
             }
-            if (flag == 0) {
+            if (flag == 0 && rs.getString(3).toString().equals("Administrator")) {
+                //open Admin panel
                 JOptionPane.showMessageDialog(null, "CODE OK",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error", JOptionPane.INFORMATION_MESSAGE);
                 rs.close();
                 st.close();
                 conn.close();
                 dispose();
+                new supervisor().setVisible(true);
 
+            } else if (flag == 0) {
+                //Clock regular user in
+                JOptionPane.showMessageDialog(null, "CODE OK",
+                        "Error", JOptionPane.INFORMATION_MESSAGE);
+                //log into db the time of log in 
+
+                try {
+                    Formatter formate = new Formatter();
+
+                    // Creating a calendar
+                    Calendar gfg_calender = Calendar.getInstance();
+
+                    // Displaying hour using Format clas using  format
+                    // specifiers
+                    // '%tl' for hours and '%tM' for minutes
+                    formate = new Formatter();
+                    formate.format("%tl:%tM", gfg_calender, gfg_calender);
+                    String sql = "INSERT INTO PONTAJ (ID, NUME, ZI, LUNA, AN, ORALOGIN) VALUES(?, ?, ?, ?, ?, ?) ";
+                    
+                    //change online status
+//                    String changeOnlineStatus = "SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "';";
+//                    Boolean aux = changeOnlineStatus.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "';");
+//                    Boolean aux = false;
+//                    ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
+//                    if(rss.next()){
+//                      aux =  !rss.getBoolean(1);  
+//                    }
+//                    rss.close();
+//                    
+//                    String changeOnlineStatus = "UPDATE ANGAJATI SET ONLINE = ? WHERE PAROLA LIKE '" + code + "'";
+//                    PreparedStatement pstmts = conn.prepareStatement(changeOnlineStatus);
+//                    pstmts.setBoolean(1, aux);
+                    
+                    
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                    //getTime() returns the current date in default time zone
+                    Date date = calendar.getTime();
+                    int day = calendar.get(Calendar.DATE);
+                    //Note: +1 the month for current month
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int year = calendar.get(Calendar.YEAR);
+                    pstmt.setInt(1, '4');
+                    pstmt.setString(2, nume);
+                    pstmt.setInt(3, day);
+                    pstmt.setInt(4, month);
+                    pstmt.setInt(5, year);
+                    pstmt.setString(6, formate.toString());
+                    pstmt.executeUpdate();
+                    pstmt.close();
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                rs.close();
+                st.close();
+                conn.close();
+                dispose();
             } else {
                 jTextField1.setText("");
                 JOptionPane.showMessageDialog(null, "INVALID CODE",
@@ -315,6 +384,7 @@ public class main extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        code = "";
     }//GEN-LAST:event_ENTERActionPerformed
 
     /**
