@@ -332,25 +332,16 @@ public class main extends javax.swing.JFrame {
                     formate.format("%tl:%tM", gfg_calender, gfg_calender);
                     String sql = "INSERT INTO PONTAJ (ID, NUME, ZI, LUNA, AN, ORALOGIN) VALUES(?, ?, ?, ?, ?, ?) ";
                     
-                    //change online status
-//                   
-                   
+                    //change online status                                   
                     Boolean aux = false;
                     ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
                     if(rss.next()){
                       aux =  !rss.getBoolean(1);  
                     }
-                    rss.close();
-//                    
+                    rss.close();              
                     String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + aux + "'  where PAROLA = '" + code + "'"; 
                     Statement stmt = conn.createStatement();
                     stmt.executeUpdate(changeOnlineStatus);
-                    
-                    
-//                    PreparedStatement pstmts = conn.prepareStatement(changeOnlineStatus);
-//                    pstmts.setBoolean(1, aux);
-                   
-
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
                     //getTime() returns the current date in default time zone
