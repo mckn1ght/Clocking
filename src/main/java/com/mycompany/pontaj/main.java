@@ -333,20 +333,24 @@ public class main extends javax.swing.JFrame {
                     String sql = "INSERT INTO PONTAJ (ID, NUME, ZI, LUNA, AN, ORALOGIN) VALUES(?, ?, ?, ?, ?, ?) ";
                     
                     //change online status
-//                    String changeOnlineStatus = "SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "';";
-//                    Boolean aux = changeOnlineStatus.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "';");
-//                    Boolean aux = false;
-//                    ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
-//                    if(rss.next()){
-//                      aux =  !rss.getBoolean(1);  
-//                    }
-//                    rss.close();
+//                   
+                   
+                    Boolean aux = false;
+                    ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
+                    if(rss.next()){
+                      aux =  !rss.getBoolean(1);  
+                    }
+                    rss.close();
 //                    
-//                    String changeOnlineStatus = "UPDATE ANGAJATI SET ONLINE = ? WHERE PAROLA LIKE '" + code + "'";
+                    String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + aux + "'  where PAROLA = '" + code + "'"; 
+                    Statement stmt = conn.createStatement();
+                    stmt.executeUpdate(changeOnlineStatus);
+                    
+                    
 //                    PreparedStatement pstmts = conn.prepareStatement(changeOnlineStatus);
 //                    pstmts.setBoolean(1, aux);
-                    
-                    
+                   
+
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
                     //getTime() returns the current date in default time zone
@@ -355,7 +359,7 @@ public class main extends javax.swing.JFrame {
                     //Note: +1 the month for current month
                     int month = calendar.get(Calendar.MONTH) + 1;
                     int year = calendar.get(Calendar.YEAR);
-                    pstmt.setInt(1, '4');
+                    pstmt.setInt(1, '7');
                     pstmt.setString(2, nume);
                     pstmt.setInt(3, day);
                     pstmt.setInt(4, month);

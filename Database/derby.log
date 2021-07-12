@@ -1,7 +1,7 @@
-Sun Jul 11 19:03:08 EEST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Mon Jul 12 22:29:37 EEST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sun Jul 11 19:03:08 EEST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017a-964e-da1b-00004eb9f54a 
+Mon Jul 12 22:29:37 EEST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017a-9c32-428f-00004eb9f54a 
 on database directory C:\Users\kodie\Documents\NetBeansProjects\Pontaj\Database\Pontaj with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
 Loaded from file:/C:/Users/kodie/Documents/NetBeansProjects/Pontaj/glassfish-5.1.0/glassfish5/javadb/lib/derby.jar
 java.vendor=Amazon.com Inc.
@@ -12,9 +12,3 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=C:\Users\kodie\Documents\NetBeansProjects\Pontaj\Database
 Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Sun Jul 11 19:19:29 EEST 2021: Shutting down Derby engine
-----------------------------------------------------------------
-Sun Jul 11 19:19:29 EEST 2021:
-Shutting down instance a816c00e-017a-964e-da1b-00004eb9f54a on database directory C:\Users\kodie\Documents\NetBeansProjects\Pontaj\Database\Pontaj with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
-----------------------------------------------------------------
