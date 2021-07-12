@@ -12,3 +12,9 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=C:\Users\kodie\Documents\NetBeansProjects\Pontaj\Database
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Jul 12 22:42:42 EEST 2021: Shutting down Derby engine
+----------------------------------------------------------------
+Mon Jul 12 22:42:42 EEST 2021:
+Shutting down instance a816c00e-017a-9c32-428f-00004eb9f54a on database directory C:\Users\kodie\Documents\NetBeansProjects\Pontaj\Database\Pontaj with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
+----------------------------------------------------------------
