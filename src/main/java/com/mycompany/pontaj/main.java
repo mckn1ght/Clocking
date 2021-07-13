@@ -25,6 +25,7 @@ import java.util.TimeZone;
  */
 public class main extends javax.swing.JFrame {
 
+    static int id = 11;
     private static String code = "";
 
     /**
@@ -331,17 +332,14 @@ public class main extends javax.swing.JFrame {
                     formate = new Formatter();
                     formate.format("%tl:%tM", gfg_calender, gfg_calender);
                     String sql = "INSERT INTO PONTAJ (ID, NUME, ZI, LUNA, AN, ORALOGIN) VALUES(?, ?, ?, ?, ?, ?) ";
-                    
+
                     //change online status                                   
-                    Boolean aux = false;
-                    ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
-                    if(rss.next()){
-                      aux =  !rss.getBoolean(1);  
+//                    login(code);
+                    if (checkOnline(code)) {
+                        logout(code);
+                    } else {
+                        login(code);
                     }
-                    rss.close();              
-                    String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + aux + "'  where PAROLA = '" + code + "'"; 
-                    Statement stmt = conn.createStatement();
-                    stmt.executeUpdate(changeOnlineStatus);
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
                     //getTime() returns the current date in default time zone
@@ -350,7 +348,8 @@ public class main extends javax.swing.JFrame {
                     //Note: +1 the month for current month
                     int month = calendar.get(Calendar.MONTH) + 1;
                     int year = calendar.get(Calendar.YEAR);
-                    pstmt.setInt(1, '7');
+                    pstmt.setInt(1, id);
+                    id++;
                     pstmt.setString(2, nume);
                     pstmt.setInt(3, day);
                     pstmt.setInt(4, month);
@@ -415,6 +414,65 @@ public class main extends javax.swing.JFrame {
                 new main().setVisible(true);
             }
         });
+    }
+
+    public static boolean checkOnline(String code) {
+        Boolean aux = true;
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
+            Statement st = conn.createStatement();
+
+            ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
+            if (rss.next()) {
+                aux = rss.getBoolean(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return aux;
+    }
+
+    public static void logout(String code) {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
+            Statement st = conn.createStatement();
+            Boolean aux = true;
+            ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
+            if (rss.next()) {
+                aux = rss.getBoolean(1);
+            }
+            if (aux == true) {
+                System.out.println("aux = " + aux);
+                String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + !aux + "'  where PAROLA = '" + code + "'";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(changeOnlineStatus);
+                rss.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void login(String code) {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
+            Statement st = conn.createStatement();
+            Boolean aux = false;
+            ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
+            if (rss.next()) {
+                aux = rss.getBoolean(1);
+            }
+            if (aux == false) {
+
+                String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + !aux + "'  where PAROLA = '" + code + "'";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(changeOnlineStatus);
+                rss.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
