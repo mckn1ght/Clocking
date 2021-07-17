@@ -26,7 +26,7 @@ import java.util.TimeZone;
 public class main extends javax.swing.JFrame {
 
     static int id = 11;
-    private static String code = "";
+    public static String code = "";
 
     /**
      * Creates new form main
