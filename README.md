@@ -12,3 +12,4 @@ V0.1
 V0.2  
 
 -Added password change functionality in the supervisor control panel  
+-The program now prompts the user to change his password if the password has the default value(0000)    
