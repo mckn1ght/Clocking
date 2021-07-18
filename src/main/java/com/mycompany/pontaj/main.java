@@ -25,7 +25,7 @@ import java.util.TimeZone;
  */
 public class main extends javax.swing.JFrame {
 
-    static int id = 11;
+    static int id = 14;
     public static String code = "";
 
     /**
@@ -291,6 +291,11 @@ public class main extends javax.swing.JFrame {
 
     private void ENTERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ENTERActionPerformed
         String nume = "";
+        if (checkDefaultPassword(code)) {
+            chooseUserPasswordChange.userPassword = "0000";
+            new changePassword().setVisible(true);
+        }
+
         try {
             int flag = 1;
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
@@ -443,7 +448,6 @@ public class main extends javax.swing.JFrame {
                 aux = rss.getBoolean(1);
             }
             if (aux == true) {
-                System.out.println("aux = " + aux);
                 String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + !aux + "'  where PAROLA = '" + code + "'";
                 Statement stmt = conn.createStatement();
                 stmt.executeUpdate(changeOnlineStatus);
@@ -469,10 +473,37 @@ public class main extends javax.swing.JFrame {
                 Statement stmt = conn.createStatement();
                 stmt.executeUpdate(changeOnlineStatus);
                 rss.close();
+                st.close();
+                conn.close();
             }
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static boolean checkDefaultPassword(String code) {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
+            Statement st = conn.createStatement();
+            Boolean aux = false;
+            ResultSet rss = st.executeQuery("SELECT CHANGEPASSWORD FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
+            if (rss.next()) {
+                aux = rss.getBoolean(1);
+            }
+            if (aux == true) {
+                String changeOnlineStatus = " UPDATE ANGAJATI SET CHANGEPASSWORD = '" + !aux + "'  where PAROLA = '" + code + "'";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(changeOnlineStatus);
+                rss.close();
+                st.close();
+                stmt.close();
+                conn.close();
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
