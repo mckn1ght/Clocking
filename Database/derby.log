@@ -1,20 +1,20 @@
-Sun Jul 18 11:25:49 EEST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Mon Aug 02 15:01:57 EEST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sun Jul 18 11:25:51 EEST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017a-b8b8-af35-00004eb9f54a 
-on database directory C:\Users\kodie\Documents\NetBeansProjects\Pontaj\Database\Pontaj with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
-Loaded from file:/C:/Users/kodie/Documents/NetBeansProjects/Pontaj/glassfish-5.1.0/glassfish5/javadb/lib/derby.jar
+Mon Aug 02 15:02:01 EEST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017b-06bd-f507-ffffcf06837d 
+on database directory C:\Users\kodie\eclipse-workspace\Clocking\Database\Pontaj with class loader sun.misc.Launcher$AppClassLoader@266474c2 
+Loaded from file:/C:/Users/kodie/eclipse-workspace/Clocking/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Amazon.com Inc.
-java.runtime.version=11.0.11+9-LTS
-user.dir=C:\Users\kodie\Documents\NetBeansProjects\Pontaj\glassfish-5.1.0\glassfish5\javadb
+java.runtime.version=1.8.0_302-b08
+user.dir=C:\Users\kodie\eclipse-workspace\Clocking\db-derby-10.14.2.0-bin
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=C:\Users\kodie\Documents\NetBeansProjects\Pontaj\Database
+derby.system.home=C:\Users\kodie\eclipse-workspace\Clocking\Database
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Sun Jul 18 13:35:37 EEST 2021: Shutting down Derby engine
+Mon Aug 02 16:16:40 EEST 2021: Shutting down Derby engine
 ----------------------------------------------------------------
-Sun Jul 18 13:35:37 EEST 2021:
-Shutting down instance a816c00e-017a-b8b8-af35-00004eb9f54a on database directory C:\Users\kodie\Documents\NetBeansProjects\Pontaj\Database\Pontaj with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
+Mon Aug 02 16:16:40 EEST 2021:
+Shutting down instance a816c00e-017b-06bd-f507-ffffcf06837d on database directory C:\Users\kodie\eclipse-workspace\Clocking\Database\Pontaj with class loader sun.misc.Launcher$AppClassLoader@266474c2 
 ----------------------------------------------------------------

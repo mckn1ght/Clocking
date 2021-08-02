@@ -25,7 +25,7 @@ import java.util.TimeZone;
  */
 public class main extends javax.swing.JFrame {
 
-    static int id = 14;
+    static int id = 1;
     public static String code = "";
 
     /**
@@ -316,7 +316,7 @@ public class main extends javax.swing.JFrame {
                 rs.close();
                 st.close();
                 conn.close();
-                dispose();
+
                 new supervisor().setVisible(true);
 
             } else if (flag == 0) {
@@ -325,52 +325,18 @@ public class main extends javax.swing.JFrame {
                         "Error", JOptionPane.INFORMATION_MESSAGE);
                 //log into db the time of log in 
 
-                try {
-                    Formatter formate = new Formatter();
-
-                    // Creating a calendar
-                    Calendar gfg_calender = Calendar.getInstance();
-
-                    // Displaying hour using Format clas using  format
-                    // specifiers
-                    // '%tl' for hours and '%tM' for minutes
-                    formate = new Formatter();
-                    formate.format("%tl:%tM", gfg_calender, gfg_calender);
-                    String sql = "INSERT INTO PONTAJ (ID, NUME, ZI, LUNA, AN, ORALOGIN) VALUES(?, ?, ?, ?, ?, ?) ";
-
-                    //change online status                                   
+                //change online status                                   
 //                    login(code);
-                    if (checkOnline(code)) {
-                        logout(code);
-                    } else {
-                        login(code);
-                    }
-                    PreparedStatement pstmt = conn.prepareStatement(sql);
-                    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                    //getTime() returns the current date in default time zone
-                    Date date = calendar.getTime();
-                    int day = calendar.get(Calendar.DATE);
-                    //Note: +1 the month for current month
-                    int month = calendar.get(Calendar.MONTH) + 1;
-                    int year = calendar.get(Calendar.YEAR);
-                    pstmt.setInt(1, id);
-                    id++;
-                    pstmt.setString(2, nume);
-                    pstmt.setInt(3, day);
-                    pstmt.setInt(4, month);
-                    pstmt.setInt(5, year);
-                    pstmt.setString(6, formate.toString());
-                    pstmt.executeUpdate();
-                    pstmt.close();
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                if (checkOnline(code)) {
+                    logout(code);
+                } else {
+                    login(code);
                 }
 
                 rs.close();
                 st.close();
                 conn.close();
-                dispose();
+
             } else {
                 jTextField1.setText("");
                 JOptionPane.showMessageDialog(null, "INVALID CODE",
@@ -383,6 +349,7 @@ public class main extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        jTextField1.setText("");
         code = "";
     }//GEN-LAST:event_ENTERActionPerformed
 
@@ -439,26 +406,68 @@ public class main extends javax.swing.JFrame {
     }
 
     public static void logout(String code) {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
-            Statement st = conn.createStatement();
-            Boolean aux = true;
-            ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
-            if (rss.next()) {
-                aux = rss.getBoolean(1);
-            }
-            if (aux == true) {
-                String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + !aux + "'  where PAROLA = '" + code + "'";
-                Statement stmt = conn.createStatement();
-                stmt.executeUpdate(changeOnlineStatus);
+        //***********************************************************************************
+        String nume = "";
+        if (checkOnline(code)) {
+            try {
+                Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
+                Statement st = conn.createStatement();
+                Boolean aux = true;
+                ResultSet rss = st.executeQuery("SELECT ONLINE FROM ANGAJATI WHERE PAROLA LIKE '" + code + "'");
+                if (rss.next()) {
+                    aux = rss.getBoolean(1);
+                }
+                if (aux == true) {
+                    String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + !aux + "'  where PAROLA = '" + code + "'";
+                    Statement stmt = conn.createStatement();
+                    stmt.executeUpdate(changeOnlineStatus);
+                    rss.close();
+                }
+
+                ResultSet rs = st.executeQuery("select * from ANGAJATI");
+                while (rs.next()) {
+                    if (rs.getString(5).equals(code)) {
+                        nume = rs.getString(2);
+                        System.out.println("Nume = " + nume);
+                        break;
+                    }
+                }
+
+                Formatter formate = new Formatter();
+                Calendar gfg_calender = Calendar.getInstance();
+                formate = new Formatter();
+                formate.format("%tl:%tM", gfg_calender, gfg_calender);
+                String sql = "INSERT INTO PONTAJ (ID, NUME, ZI, LUNA, AN, ORALOGOFF) VALUES(?, ?, ?, ?, ?, ?) ";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                //getTime() returns the current date in default time zone
+                Date date = calendar.getTime();
+                int day = calendar.get(Calendar.DATE);
+                //Note: +1 the month for current month
+                int month = calendar.get(Calendar.MONTH) + 1;
+                int year = calendar.get(Calendar.YEAR);
+                pstmt.setInt(1, id);
+                id++;
+                pstmt.setString(2, nume);
+                pstmt.setInt(3, day);
+                pstmt.setInt(4, month);
+                pstmt.setInt(5, year);
+                pstmt.setString(6, formate.toString());
+                pstmt.executeUpdate();
+                pstmt.close();
+                conn.close();
                 rss.close();
+                st.close();
+                conn.close();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public static void login(String code) {
+        String nume = "";
         try {
             Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
             Statement st = conn.createStatement();
@@ -472,6 +481,47 @@ public class main extends javax.swing.JFrame {
                 String changeOnlineStatus = " UPDATE ANGAJATI SET ONLINE = '" + !aux + "'  where PAROLA = '" + code + "'";
                 Statement stmt = conn.createStatement();
                 stmt.executeUpdate(changeOnlineStatus);
+                try {
+                    ResultSet rs = st.executeQuery("select * from ANGAJATI");
+                    while (rs.next()) {
+                        if (rs.getString(5).equals(code)) {
+                            nume = rs.getString(2);
+                            System.out.println("Nume = " + nume);
+                            break;
+                        }
+                    }
+                    Formatter formate = new Formatter();
+
+                    // Creating a calendar
+                    Calendar gfg_calender = Calendar.getInstance();
+
+                    // Displaying hour using Format clas using  format
+                    // specifiers
+                    // '%tl' for hours and '%tM' for minutes
+                    formate = new Formatter();
+                    formate.format("%tl:%tM", gfg_calender, gfg_calender);
+                    String sql = "INSERT INTO PONTAJ (ID, NUME, ZI, LUNA, AN, ORALOGIN) VALUES(?, ?, ?, ?, ?, ?) ";////////
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                    //getTime() returns the current date in default time zone
+                    Date date = calendar.getTime();
+                    int day = calendar.get(Calendar.DATE);
+                    //Note: +1 the month for current month
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int year = calendar.get(Calendar.YEAR);
+                    pstmt.setInt(1, id);
+                    id++;
+                    pstmt.setString(2, nume);
+                    pstmt.setInt(3, day);
+                    pstmt.setInt(4, month);
+                    pstmt.setInt(5, year);
+                    pstmt.setString(6, formate.toString());
+                    pstmt.executeUpdate();
+                    pstmt.close();
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 rss.close();
                 st.close();
                 conn.close();
