@@ -11,12 +11,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 /**
@@ -27,6 +32,7 @@ public class main extends javax.swing.JFrame {
 
     static int id = 1;
     public static String code = "";
+    public static HashMap<String, String> loggedUsers = new HashMap<String, String>();//HashMap that stores the user and the time he logged in
 
     /**
      * Creates new form main
@@ -328,6 +334,7 @@ public class main extends javax.swing.JFrame {
                 //change online status                                   
 //                    login(code);
                 if (checkOnline(code)) {
+                    totalHoursWorked(code);
                     logout(code);
                 } else {
                     login(code);
@@ -347,6 +354,8 @@ public class main extends javax.swing.JFrame {
             st.close();
             conn.close();
         } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTextField1.setText("");
@@ -453,6 +462,8 @@ public class main extends javax.swing.JFrame {
                 pstmt.setInt(4, month);
                 pstmt.setInt(5, year);
                 pstmt.setString(6, formate.toString());
+                loggedUsers.remove(nume);
+                System.out.println(formate.toString() + " - " + nume + " is now logged off. ");
                 pstmt.executeUpdate();
                 pstmt.close();
                 conn.close();
@@ -516,6 +527,8 @@ public class main extends javax.swing.JFrame {
                     pstmt.setInt(4, month);
                     pstmt.setInt(5, year);
                     pstmt.setString(6, formate.toString());
+                    loggedUsers.put(nume, formate.toString());
+                    System.out.println(formate.toString() + " - " + nume + " is now logged in. ");
                     pstmt.executeUpdate();
                     pstmt.close();
                     conn.close();
@@ -529,6 +542,7 @@ public class main extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     public static boolean checkDefaultPassword(String code) {
@@ -554,6 +568,84 @@ public class main extends javax.swing.JFrame {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    public static String totalHoursWorked(String code) throws ParseException {
+        String totalHoursWorkedString = "";
+        Double totalHoursWorked;
+        String oraLogin = "";
+        String oraLogOff = "";
+        String nume = "";
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Pontaj; create = true ", "Nicolae", "admin");
+            Statement st = conn.createStatement();
+            Boolean aux = false;
+            String changeOnlineStatus = " UPDATE PONTAJ SET ORELUCRATE = '" + !aux + "'  where PAROLA = '" + code + "'";
+            Statement stmt = conn.createStatement();
+            try {
+                ResultSet rs = st.executeQuery("select * from ANGAJATI");
+                while (rs.next()) {
+                    if (rs.getString(5).equals(code)) {
+                        nume = rs.getString(2);
+                        System.out.println("Nume = " + nume);
+                        break;
+                    }
+                }
+                Formatter formate = new Formatter();
+
+                // Creating a calendar
+                Calendar gfg_calender = Calendar.getInstance();
+
+                // Displaying hour using Format clas using  format
+                // specifiers
+                // '%tl' for hours and '%tM' for minutes
+                formate = new Formatter();
+                formate.format("%tl:%tM", gfg_calender, gfg_calender);
+                String sql = "INSERT INTO PONTAJ (ID, NUME, ZI, LUNA, AN, ORALOGIN) VALUES(?, ?, ?, ?, ?, ?) ";////////
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                //getTime() returns the current date in default time zone
+                Date date = calendar.getTime();
+                int day = calendar.get(Calendar.DATE);
+                //Note: +1 the month for current month
+                int month = calendar.get(Calendar.MONTH) + 1;
+                int year = calendar.get(Calendar.YEAR);
+                pstmt.setInt(1, id);
+                id++;
+                pstmt.setString(2, nume);
+                pstmt.setInt(3, day);
+                pstmt.setInt(4, month);
+                pstmt.setInt(5, year);
+                pstmt.setString(6, formate.toString());
+                oraLogOff = formate.toString();
+//                    totalHoursWorked = Double.parseDouble(formate.toString()) - Double.parseDouble(loggedUsers.get(nume));
+
+/// Calcul ore si minute lucrate
+                String time1 = formate.toString();
+                String time2 = loggedUsers.get(nume);
+
+                DateFormat format = new SimpleDateFormat("HH:mm");
+                Date date1 = format.parse(time1);
+                Date date2 = format.parse(time2);
+                long milliseconds = date1.getTime() - date2.getTime();
+                int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
+                int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+                totalHoursWorkedString = (hours + ":" + minutes).toString();
+                totalHoursWorked = Double.parseDouble(hours + ":" + minutes);
+///
+                pstmt.executeUpdate();
+                pstmt.close();
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+//                rss.close();
+            st.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return totalHoursWorkedString;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

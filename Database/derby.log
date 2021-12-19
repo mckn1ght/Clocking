@@ -1,20 +1,20 @@
-Mon Aug 02 15:01:57 EEST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Sat Dec 18 23:07:28 EET 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) démarré et prêt à accepter les connexions sur le port 1527
 ----------------------------------------------------------------
-Mon Aug 02 15:02:01 EEST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017b-06bd-f507-ffffcf06837d 
-on database directory C:\Users\kodie\eclipse-workspace\Clocking\Database\Pontaj with class loader sun.misc.Launcher$AppClassLoader@266474c2 
-Loaded from file:/C:/Users/kodie/eclipse-workspace/Clocking/db-derby-10.14.2.0-bin/lib/derby.jar
+Sat Dec 18 23:07:32 EET 2021:
+Amorçage de Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579) : instance a816c00e-017d-cf5e-fd37-00006a19d927 
+dans le répertoire de base de données C:\Users\kodie\Documents\GitHub\Clocking\Database\Pontaj avec le chargeur de classe sun.misc.Launcher$AppClassLoader@266474c2
+Chargé de file:/C:/Users/kodie/Documents/GitHub/Clocking/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Amazon.com Inc.
-java.runtime.version=1.8.0_302-b08
-user.dir=C:\Users\kodie\eclipse-workspace\Clocking\db-derby-10.14.2.0-bin
+java.runtime.version=1.8.0_312-b07
+user.dir=C:\Users\kodie\Documents\GitHub\Clocking\db-derby-10.14.2.0-bin
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=C:\Users\kodie\eclipse-workspace\Clocking\Database
-Database Class Loader started - derby.database.classpath=''
+derby.system.home=C:\Users\kodie\Documents\GitHub\Clocking\Database
+Chargeur de classe de la base de données démarré - derby.database.classpath = ''
 ----------------------------------------------------------------
-Mon Aug 02 16:16:40 EEST 2021: Shutting down Derby engine
+Sat Dec 18 23:39:34 EET 2021 : fermeture du moteur Derby
 ----------------------------------------------------------------
-Mon Aug 02 16:16:40 EEST 2021:
-Shutting down instance a816c00e-017b-06bd-f507-ffffcf06837d on database directory C:\Users\kodie\eclipse-workspace\Clocking\Database\Pontaj with class loader sun.misc.Launcher$AppClassLoader@266474c2 
+Sat Dec 18 23:39:34 EET 2021:
+Fermeture de l'instance a816c00e-017d-cf5e-fd37-00006a19d927 sur le répertoire de base de données C:\Users\kodie\Documents\GitHub\Clocking\Database\Pontaj avec le chargeur de classe sun.misc.Launcher$AppClassLoader@266474c2 
 ----------------------------------------------------------------
