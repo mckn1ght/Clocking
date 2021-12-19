@@ -14,3 +14,4 @@ V0.2
 -Added password change functionality in the supervisor control panel  
 -The program now prompts the user to change his password if the password has the default value(0000)   
 -The user's login and logout day, month, year and time information is now saved in the database  
+-Added functionality to calculate total hours worked  
